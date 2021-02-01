@@ -15,14 +15,14 @@
 #define xDirPin 3
 #define xStepPin 4
 //Switch
-#define xHallSensor 2
+#define xHallSensor 7
 
 //Y Axis
 //Motor
 #define yDirPin 5
 #define yStepPin 6
 //Switch
-#define yHallSensor 7
+#define yHallSensor 2
 
 // Switches
 #define turnOn 8
@@ -32,7 +32,7 @@
 #define accel 1000
 //1/8 microstepping
 #define rev 200 * 8
-#define debug true
+#define debug false
 
 //declarations
 void printDebug();
@@ -43,7 +43,7 @@ struct Sensor
     int previous = 1;
     int output = 1;
     int count = 1;
-    int threshold = 4;
+    int threshold = 50;
 
     int inputValidator(int current)
     {
@@ -91,7 +91,7 @@ void loop()
     {
         printDebug();
     }
-    runProgram = turnOn_input.inputValidator(digitalRead(turnOn));
+    runProgram = turnOn_input.inputValidator(!digitalRead(turnOn));
     if (runProgram)
     {
 
@@ -235,7 +235,7 @@ void runHome()
     yMotor.moveTo(1);
     while (runProgram)
     {
-        runProgram = turnOn_input.inputValidator(digitalRead(turnOn));
+        runProgram = turnOn_input.inputValidator(!digitalRead(turnOn));
         if(debug){Serial.println("Go Home");}
         
 
@@ -306,9 +306,8 @@ void mySetup(){
 
     // Initialize variables
     xStep = 19500;
-    yStep = 35;//rev * 0.5; //steps needed
+    yStep = rev * 0.5; //steps needed
     yStepTarget = yStep;
-    // x_axis.threshold = 150;
     turnOn_input.setOutput(0);
     xStepTarget = 0;
     yStatus = true;
