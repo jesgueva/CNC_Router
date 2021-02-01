@@ -140,7 +140,6 @@ void loop()
             {
                 Serial.println("End X, Run Y");
             }
-            // xMotor.moveTo(xMotor.currentPosition());
             yMotor.moveTo(yStepTarget); // TODO: move to top reached and bottom;
             yMotor.run();
             
